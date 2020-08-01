@@ -5,7 +5,11 @@ import { Subscription } from 'rxjs';
 import { Product } from '../product';
 import { ProductService } from '../products.service';
 import { Store } from '@ngrx/store';
-import { ProductState, State } from '../state/product.reducer';
+import {
+  ProductState,
+  State,
+  getShowProductCode,
+} from '../state/product.reducer';
 
 @Component({
   selector: 'app-product-list',
@@ -39,8 +43,8 @@ export class ProductListComponent implements OnInit {
       error: (err) => (this.errorMessage = err),
     });
 
-    this.store.select('products').subscribe((products) => {
-      this.displayCode = products.showProductCode;
+    this.store.select(getShowProductCode).subscribe((showProduct) => {
+      this.displayCode = showProduct;
     });
   }
 
