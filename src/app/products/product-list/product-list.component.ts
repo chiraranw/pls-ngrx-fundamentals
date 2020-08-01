@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { Product } from '../product';
 import { ProductService } from '../products.service';
 import { Store } from '@ngrx/store';
+import { ProductState, State } from '../state/product.reducer';
 
 @Component({
   selector: 'app-product-list',
@@ -25,7 +26,7 @@ export class ProductListComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private store: Store<any>
+    private store: Store<State>
   ) {}
 
   ngOnInit(): void {
@@ -40,7 +41,7 @@ export class ProductListComponent implements OnInit {
 
     this.store.select('products').subscribe((products) => {
       if (products) {
-        this.displayCode = products.showProduct;
+        this.displayCode = products.showProductCode;
       }
     });
   }
