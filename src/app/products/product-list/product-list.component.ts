@@ -9,6 +9,7 @@ import {
   getShowProductCode,
   getCurrentProduct,
   getProducts,
+  getError,
 } from '../state/product.reducer';
 import * as ProductActions from '../state/product.actions';
 import { Observable } from 'rxjs';
@@ -20,7 +21,7 @@ import { Observable } from 'rxjs';
 })
 export class ProductListComponent implements OnInit {
   pageTitle = 'Products';
-  errorMessage: string;
+  errorMessage$: Observable<string>;
 
   products$: Observable<Product[]>;
 
@@ -36,7 +37,7 @@ export class ProductListComponent implements OnInit {
 
   ngOnInit(): void {
     this.selectedProduct$ = this.store.select(getCurrentProduct);
-
+    this.errorMessage$ = this.store.select(getError);
     this.store.dispatch(ProductActions.loadProducts());
     this.products$ = this.store.select(getProducts);
     this.displayCode$ = this.store.select(getShowProductCode);

@@ -10,7 +10,7 @@ import { Product } from './product';
   providedIn: 'root',
 })
 export class ProductService {
-  private productsUrl = 'api/products';
+  private productsUrl = 'api/productsmmm';
 
   constructor(private http: HttpClient) {}
 
