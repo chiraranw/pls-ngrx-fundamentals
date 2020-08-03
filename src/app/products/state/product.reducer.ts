@@ -7,6 +7,7 @@ import {
 } from '@ngrx/store';
 import { Product } from '../product';
 import * as AppState from '../../state/app.state';
+import * as ProductActions from './product.actions';
 import { createFeatureReducerFactory } from '@ngrx/store/src/utils';
 
 /**
@@ -32,11 +33,35 @@ const initialState: ProductState = {
 
 export const productReducer = createReducer<ProductState>(
   initialState,
-  on(createAction('[Product] Toggle Product Code'), (state: ProductState) => {
+  on(ProductActions.toggleShowProductCode, (state: ProductState) => {
     console.log('[Product] Toggle Product Code', state.showProductCode);
     return {
       ...state,
       showProductCode: !state.showProductCode,
+    };
+  }),
+  on(ProductActions.setCurrentProduct, (state: ProductState, action) => {
+    return {
+      ...state,
+      currentProduct: action.product,
+    };
+  }),
+  on(ProductActions.clearCurrentProduct, (state: ProductState) => {
+    return {
+      ...state,
+      currentProduct: null,
+    };
+  }),
+  on(ProductActions.initializeCurrentProduct, (state: ProductState) => {
+    return {
+      ...state,
+      currentProduct: {
+        id: 0,
+        productCode: 'New',
+        productName: null,
+        starRating: null,
+        description: '',
+      },
     };
   })
 );
