@@ -8,8 +8,10 @@ import {
   State,
   getShowProductCode,
   getCurrentProduct,
+  getProducts,
 } from '../state/product.reducer';
 import * as ProductActions from '../state/product.actions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -20,12 +22,12 @@ export class ProductListComponent implements OnInit {
   pageTitle = 'Products';
   errorMessage: string;
 
-  displayCode: boolean;
-
-  products: Product[];
+  products$: Observable<Product[]>;
 
   // Used to highlight the selected product in the list
   selectedProduct: Product | null;
+  displayCode$: Observable<boolean>;
+  selectedProduct$: Observable<Product>;
 
   constructor(
     private productService: ProductService,
@@ -33,20 +35,11 @@ export class ProductListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    //TODO:Unsub
-    this.store
-      .select(getCurrentProduct)
-      .subscribe((currentProduct) => (this.selectedProduct = currentProduct));
+    this.selectedProduct$ = this.store.select(getCurrentProduct);
 
-    this.productService.getProducts().subscribe({
-      next: (products: Product[]) => (this.products = products),
-      error: (err) => (this.errorMessage = err),
-    });
-
-    //TODO:Unsub
-    this.store.select(getShowProductCode).subscribe((showProduct) => {
-      this.displayCode = showProduct;
-    });
+    this.store.dispatch(ProductActions.loadProducts());
+    this.products$ = this.store.select(getProducts);
+    this.displayCode$ = this.store.select(getShowProductCode);
   }
 
   ngOnDestroy(): void {}

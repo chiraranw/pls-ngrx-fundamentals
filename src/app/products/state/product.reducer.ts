@@ -1,14 +1,12 @@
 import {
   createReducer,
   on,
-  createAction,
   createFeatureSelector,
   createSelector,
 } from '@ngrx/store';
 import { Product } from '../product';
 import * as AppState from '../../state/app.state';
 import * as ProductActions from './product.actions';
-import { createFeatureReducerFactory } from '@ngrx/store/src/utils';
 
 /**
  * Exposing the Global State will all the states,
@@ -63,7 +61,16 @@ export const productReducer = createReducer<ProductState>(
         description: '',
       },
     };
-  })
+  }),
+  on(
+    ProductActions.loadProductsSuccess,
+    (state, action): ProductState => {
+      return {
+        ...state,
+        products: action.products,
+      };
+    }
+  )
 );
 
 //Selectors

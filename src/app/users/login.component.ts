@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { getMaskUserName } from './state/user.reducer';
+import { maskUserName } from './state/user.actions';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,7 @@ export class LoginComponent implements OnInit {
   }
 
   checkChanged(): void {
-    this.store.dispatch({ type: '[User] toggle masking username' });
+    this.store.dispatch(maskUserName());
   }
 
   login(loginForm: NgForm): void {
