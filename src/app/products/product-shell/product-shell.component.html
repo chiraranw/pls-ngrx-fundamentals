@@ -1,6 +1,14 @@
 <div class="row">
   <div class="col-md-4">
-    <app-product-list></app-product-list>
+    <app-product-list
+      [errorMessage]="errorMessage$ | async"
+      [products]="products$ | async"
+      [displayCode]="displayCode$ | async"
+      [selectedProduct]="selectedProduct$ | async"
+      (displayProductChanged)="checkChanged()"
+      (initializeNewProduct)="newProduct()"
+      (productWasSelected)="productSelected($event)"
+    ></app-product-list>
   </div>
   <div class="col-md-8">
     <app-product-edit></app-product-edit>
