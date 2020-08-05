@@ -10,7 +10,7 @@ import {
   getProducts,
   getError,
 } from '../state/product.reducer';
-import * as ProductActions from '../state/product.actions';
+import * as ProductPageActions from '../state/product-page.actions';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -32,22 +32,22 @@ export class ProductShellComponent implements OnInit {
   ngOnInit(): void {
     this.selectedProduct$ = this.store.select(getCurrentProduct);
     this.errorMessage$ = this.store.select(getError);
-    this.store.dispatch(ProductActions.loadProducts());
+    this.store.dispatch(ProductPageActions.loadProducts());
     this.products$ = this.store.select(getProducts);
     this.displayCode$ = this.store.select(getShowProductCode);
   }
 
   checkChanged(): void {
-    this.store.dispatch(ProductActions.toggleShowProductCode());
+    this.store.dispatch(ProductPageActions.toggleShowProductCode());
   }
 
   newProduct(): void {
-    this.store.dispatch(ProductActions.initializeCurrentProduct());
+    this.store.dispatch(ProductPageActions.initializeCurrentProduct());
   }
 
   productSelected(product: Product): void {
     this.store.dispatch(
-      ProductActions.setCurrentProduct({ currentProductId: product.id })
+      ProductPageActions.setCurrentProduct({ currentProductId: product.id })
     );
   }
 }
